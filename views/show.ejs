@@ -1,8 +1,14 @@
 <%- include('partials/header') %>
 
-<p><%= hot_topic.title %></p>
+<h1><%= hot_topic.title %></h1>
 <img src="<%= hot_topic.image %>">
 
 <p><%= hot_topic.description %></p>
+
+<% hot_topic.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }) %>
 
 <%- include('partials/footer') %>
