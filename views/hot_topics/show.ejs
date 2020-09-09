@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+
+<h1><%= hot_topic.title %></h1>
+<img src="<%= hot_topic.image %>">
+
+<p><%= hot_topic.description %></p>
+
+<p>
+    <a class="btn btn-success" href="/hot_topics/<%= hot_topic._id %>/comments/new">Add Comment</a>
+</p>
+
+<% hot_topic.comments.forEach(function(comment){ %>
+    <p>
+        <strong><%= comment.author %></strong> - <%= comment.text %>
+    </p>
+<% }) %>
+
+<%- include('../partials/footer') %>
