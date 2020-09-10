@@ -26,6 +26,9 @@ router.post('/', isLoggedIn, function(req, res) {
 					console.log(err);
 					console.log('here');
 				} else {
+					comment.author.id = req.user._id;
+					comment.author.username = req.user.username;
+					comment.save();
 					hot_topic.comments.push(comment);
 					hot_topic.save();
 					res.redirect('/hot_topics/' + hot_topic._id);

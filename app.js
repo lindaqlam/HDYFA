@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
 	next();
 });
 
-seedDB();
+// seedDB();
 
 app.use(indexRoutes);
 app.use('/hot_topics/:id/comments', commentRoutes);

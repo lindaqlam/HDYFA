@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 });
 
 //CREATE - add new hot topic
-router.post('/', function(req, res) {
+router.post('/', isLoggedIn, function(req, res) {
 	var title = req.body.title;
 	var image = req.body.image;
 	var desc = req.body.description;
@@ -29,7 +29,7 @@ router.post('/', function(req, res) {
 });
 
 //NEW - show form to create new hot topic
-router.get('/new', function(req, res) {
+router.get('/new', isLoggedIn, function(req, res) {
 	res.render('hot_topics/new');
 });
 
@@ -47,5 +47,13 @@ router.get('/:id', function(req, res) {
 		}
 	});
 });
+
+// MIDDLEWARE
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/login');
+}
 
 module.exports = router;
