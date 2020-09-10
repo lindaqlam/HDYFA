@@ -1,9 +1,20 @@
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); //parse information from forms
 var mongoose = require('mongoose');
+var seedDB = require('./seeds');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
 
-const mongoose = require('mongoose');
+var HotTopic = require('./models/hot_topic');
+var Comment = require('./models/comment');
+var User = require('./models/user');
+
+// requiring routes
+var commentRoutes = require('./routes/comments');
+var topicRoutes = require('./routes/hot_topics');
+var indexRoutes = require('./routes/index');
+
 mongoose
 	.connect('mongodb://localhost:27017/hdyfa', {
 		useNewUrlParser: true,
@@ -12,139 +23,33 @@ mongoose
 	.then(() => console.log('Connected to DB!'))
 	.catch((error) => console.log(error.message));
 
-//SCHEMA
-var hotTopicSchema = new mongoose.Schema({
-	title: String,
-	image: String,
-	description: String
-});
-
-var HotTopic = mongoose.model('HotTopic', hotTopicSchema);
-
-// HotTopic.create(
-// 	{
-// 		title: 'WAP Public Outry',
-// 		image: 'https://upload.wikimedia.org/wikipedia/en/f/f4/Cardi_B_-_WAP_%28feat._Megan_Thee_Stallion%29.png',
-// 		description: 'Anyone who thinks this song is anti-feminist is a fool.'
-// 	},
-// 	function(err, hot_topic) {
-// 		if (err) {
-// 			console.log(err);
-// 		} else {
-// 			console.log('Newly created hot topic!');
-// 			console.log(hot_topic);
-// 		}
-// 	}
-// );
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
-var hot_topics = [
-	{
-		title: 'Folklore, The Album',
-		image:
-			'https://ca-times.brightspotcdn.com/dims4/default/22c8d63/2147483647/strip/true/crop/3448x3448+0+0/resize/840x840!/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F94%2Fd3%2Fac50aa2e4574bbd76d2b8ce47d91%2Fla-photos-handouts-la-et-exclusive-taylor-swift-folklore-album-102.JPG'
-	},
-	{
-		title: 'Adult Disney Fanatics',
-		image:
-			'https://images.unsplash.com/photo-1535764558463-30f3af596bee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80'
-	},
-	{
-		title: 'AOC',
-		image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Alexandria_Ocasio-Cortez_Official_Portrait.jpg'
-	},
-	{
-		title: "Trader Joe's",
-		image:
-			'https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2020/07/0/0/trader-joes-Getty.png?ve=1&tl=1'
-	},
-	{
-		title: 'Folklore, The Album',
-		image:
-			'https://ca-times.brightspotcdn.com/dims4/default/22c8d63/2147483647/strip/true/crop/3448x3448+0+0/resize/840x840!/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F94%2Fd3%2Fac50aa2e4574bbd76d2b8ce47d91%2Fla-photos-handouts-la-et-exclusive-taylor-swift-folklore-album-102.JPG'
-	},
-	{
-		title: 'Adult Disney Fanatics',
-		image:
-			'https://images.unsplash.com/photo-1535764558463-30f3af596bee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80'
-	},
-	{
-		title: 'AOC',
-		image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Alexandria_Ocasio-Cortez_Official_Portrait.jpg'
-	},
-	{
-		title: "Trader Joe's",
-		image:
-			'https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2020/07/0/0/trader-joes-Getty.png?ve=1&tl=1'
-	},
-	{
-		title: 'Folklore, The Album',
-		image:
-			'https://ca-times.brightspotcdn.com/dims4/default/22c8d63/2147483647/strip/true/crop/3448x3448+0+0/resize/840x840!/quality/90/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F94%2Fd3%2Fac50aa2e4574bbd76d2b8ce47d91%2Fla-photos-handouts-la-et-exclusive-taylor-swift-folklore-album-102.JPG'
-	},
-	{
-		title: 'Adult Disney Fanatics',
-		image:
-			'https://images.unsplash.com/photo-1535764558463-30f3af596bee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80'
-	},
-	{
-		title: 'AOC',
-		image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Alexandria_Ocasio-Cortez_Official_Portrait.jpg'
-	},
-	{
-		title: "Trader Joe's",
-		image:
-			'https://a57.foxnews.com/static.foxbusiness.com/foxbusiness.com/content/uploads/2020/07/0/0/trader-joes-Getty.png?ve=1&tl=1'
-	}
-];
+app.use(
+	require('express-session')({
+		secret: 'I love dogs',
+		resave: false,
+		saveUninitialized: false
+	})
+);
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-app.get('/', function(req, res) {
-	res.render('landing');
+app.use(function(req, res, next) {
+	res.locals.currentUser = req.user;
+	next();
 });
 
-//INDEX - show all hot topics
-app.get('/hot_topics', function(req, res) {
-	HotTopic.find({}, function(err, all_topics) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.render('index', { hot_topics: all_topics });
-		}
-	});
-});
+seedDB();
 
-//CREATE - add new hot topic
-app.post('/hot_topics', function(req, res) {
-	var title = req.body.title;
-	var image = req.body.image;
-	var desc = req.body.description;
-	var new_topic = { title: title, image: image, description: desc };
-
-	HotTopic.create(new_topic, function(err, newlyCreated) {
-		if (err) {
-		} else {
-			res.redirect('/hot_topics');
-		}
-	});
-});
-
-//NEW - show form to create new hot topic
-app.get('/hot_topics/new', function(req, res) {
-	res.render('new');
-});
-
-//SHOW - shows info about one hot topic
-app.get('/hot_topics/:id', function(req, res) {
-	HotTopic.findById(req.params.id, function(err, foundTopic) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.render('show', { hot_topic: foundTopic });
-		}
-	});
-});
+app.use(indexRoutes);
+app.use('/hot_topics/:id/comments', commentRoutes);
+app.use('/hot_topics', topicRoutes);
 
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
 	console.log('HDYFA server has started!');
