@@ -9,3 +9,15 @@
 .thumbnail .caption-full {
 	padding: 9px;
 }
+
+ul {
+	list-style-type: none;
+}
+
+li input {
+	margin-bottom: 10px;
+}
+
+.form-error {
+	color: red;
+}

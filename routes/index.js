@@ -15,10 +15,17 @@ router.get('/register', function(req, res) {
 
 // REGISTER POST
 router.post('/register', function(req, res) {
-	var newUser = new User({ username: req.body.username });
+	var email = req.body.email;
+	var username = req.body.username;
+
+	var newUser = new User({
+		email: email,
+		username: username
+	});
+
 	User.register(newUser, req.body.password, function(err, user) {
 		if (err) {
-			console.log(err);
+			console.log(err.message);
 			return res.render('register');
 		}
 
