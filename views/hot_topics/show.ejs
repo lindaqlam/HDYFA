@@ -17,7 +17,13 @@
                 <div class="caption-full">
                     <h4><%= hot_topic.title %></h4>
                     <p><%= hot_topic.description %></p>       
-                    <p>Asked by: <%= hot_topic.author.username %> </p>       
+                    <p>Asked by: <%= hot_topic.author.username %> </p>  
+                    <% if (currentUser && hot_topic.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-xs btn-warning" href="/hot_topics/<%= hot_topic._id %>/edit">Edit</a>  
+                        <form id="delete-form" action="/hot_topics/<%= hot_topic._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                    <% } %>                    
                 </div>
             </div>
             <div class="well">

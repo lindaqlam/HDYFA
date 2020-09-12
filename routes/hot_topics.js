@@ -57,12 +57,59 @@ router.get('/:id', function(req, res) {
 	});
 });
 
+// EDIT HOT TOPIC ROUTE
+router.get('/:id/edit', checkAuthorization, function(req, res) {
+	HotTopic.findById(req.params.id, function(err, foundTopic) {
+		res.render('hot_topics/edit', { hot_topic: foundTopic });
+	});
+});
+
+// UPDATE HOT TOPIC ROUTE
+router.put('/:id', checkAuthorization, function(req, res) {
+	HotTopic.findByIdAndUpdate(req.params.id, req.body.hot_topic, function(err, updatedHotTopic) {
+		if (err) {
+			res.redirect('/hot_topics');
+		} else {
+			res.redirect('/hot_topics/' + req.params.id);
+		}
+	});
+});
+
+// DESTROY HOT TOPIC ROUTE
+router.delete('/:id', checkAuthorization, function(req, res) {
+	HotTopic.findByIdAndRemove(req.params.id, function(err) {
+		if (err) {
+			res.redirect('/hot_topics');
+		} else {
+			res.redirect('/hot_topics');
+		}
+	});
+});
+
 // MIDDLEWARE
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
 	res.redirect('/login');
+}
+
+function checkAuthorization(req, res, next) {
+	if (req.isAuthenticated()) {
+		HotTopic.findById(req.params.id, function(err, foundTopic) {
+			if (err) {
+				res.redirect('back');
+			} else {
+				if (foundTopic.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					res.redirect('back');
+				}
+			}
+		});
+	} else {
+		res.redirect('back');
+	}
 }
 
 module.exports = router;

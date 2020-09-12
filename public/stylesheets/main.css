@@ -21,3 +21,7 @@ li input {
 .form-error {
 	color: red;
 }
+
+#delete-form {
+	display: inline;
+}
