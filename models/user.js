@@ -4,6 +4,11 @@ var uniqueValidator = require('mongoose-unique-validator');
 
 var UserSchema = new mongoose.Schema(
 	{
+		first_name: {
+			type: String,
+			required: [ true ]
+		},
+		last_name: String,
 		email: {
 			type: String,
 			lowercase: true,
@@ -17,10 +22,9 @@ var UserSchema = new mongoose.Schema(
 			lowercase: true,
 			unique: true,
 			required: [ true, "can't be blank" ],
-			match: [ /^[a-zA-Z0-9]+$/, 'is invalid' ],
+			match: [ /^[a-z0-9_-]+$/, 'is invalid' ],
 			index: true
 		},
-		// bio: String,
 		password: String,
 		hash: String,
 		salt: String
@@ -29,16 +33,6 @@ var UserSchema = new mongoose.Schema(
 );
 
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
-
-/*	
-	username is invalid (front end error)
-	email already in use:
-	username already in use:
-	no username given:
-	no email given:
-
-
-*/
 
 UserSchema.plugin(passportLocalMongoose);
 
