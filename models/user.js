@@ -26,6 +26,7 @@ var UserSchema = new mongoose.Schema(
 			index: true
 		},
 		password: String,
+		bio: String,
 		hash: String,
 		salt: String
 	},

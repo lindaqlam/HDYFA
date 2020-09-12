@@ -19,12 +19,14 @@ router.post('/register', function(req, res) {
 	var username = req.body.username;
 	var first_name = req.body.first_name;
 	var last_name = req.body.last_name;
+	var bio = req.body.bio;
 
 	var newUser = new User({
 		first_name: first_name,
 		last_name: last_name,
 		email: email,
-		username: username
+		username: username,
+		bio: bio
 	});
 
 	User.register(newUser, req.body.password, function(err, user) {
