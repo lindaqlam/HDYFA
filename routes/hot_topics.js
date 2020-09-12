@@ -58,14 +58,14 @@ router.get('/:id', function(req, res) {
 });
 
 // EDIT HOT TOPIC ROUTE
-router.get('/:id/edit', checkAuthorization, function(req, res) {
+router.get('/:id/edit', checkTopicAuthorization, function(req, res) {
 	HotTopic.findById(req.params.id, function(err, foundTopic) {
 		res.render('hot_topics/edit', { hot_topic: foundTopic });
 	});
 });
 
 // UPDATE HOT TOPIC ROUTE
-router.put('/:id', checkAuthorization, function(req, res) {
+router.put('/:id', checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndUpdate(req.params.id, req.body.hot_topic, function(err, updatedHotTopic) {
 		if (err) {
 			res.redirect('/hot_topics');
@@ -76,7 +76,7 @@ router.put('/:id', checkAuthorization, function(req, res) {
 });
 
 // DESTROY HOT TOPIC ROUTE
-router.delete('/:id', checkAuthorization, function(req, res) {
+router.delete('/:id', checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
 			res.redirect('/hot_topics');
@@ -94,7 +94,7 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/login');
 }
 
-function checkAuthorization(req, res, next) {
+function checkTopicAuthorization(req, res, next) {
 	if (req.isAuthenticated()) {
 		HotTopic.findById(req.params.id, function(err, foundTopic) {
 			if (err) {

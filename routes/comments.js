@@ -38,12 +38,63 @@ router.post('/', isLoggedIn, function(req, res) {
 	});
 });
 
+//COMMENT EDIT ROUTE
+router.get('/:comment_id/edit', checkCommentAuthorization, function(req, res) {
+	Comment.findById(req.params.comment_id, function(err, foundComment) {
+		if (err) {
+			res.redirect('back');
+		} else {
+			res.render('comments/edit', { hot_topic_id: req.params.id, comment: foundComment });
+		}
+	});
+});
+
+// COMMENT UPDATE ROUTE
+router.put('/:comment_id', checkCommentAuthorization, function(req, res) {
+	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+		if (err) {
+			res.redirect('back');
+		} else {
+			res.redirect('/hot_topics/' + req.params.id);
+		}
+	});
+});
+
+// COMMENT DELETE ROUTE
+router.delete('/:comment_id', checkCommentAuthorization, function(req, res) {
+	Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+		if (err) {
+			res.redirect('back');
+		} else {
+			res.redirect('/hot_topics/' + req.params.id);
+		}
+	});
+});
+
 // MIDDLEWARE
 function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
 	res.redirect('/login');
+}
+
+function checkCommentAuthorization(req, res, next) {
+	if (req.isAuthenticated()) {
+		Comment.findById(req.params.comment_id, function(err, foundComment) {
+			if (err) {
+				res.redirect('back');
+			} else {
+				if (foundComment.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					res.redirect('back');
+				}
+			}
+		});
+	} else {
+		res.redirect('back');
+	}
 }
 
 module.exports = router;
