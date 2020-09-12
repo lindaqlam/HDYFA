@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var HotTopic = require('../models/hot_topic');
+var middleware = require('../middleware');
 
 //INDEX - show all hot topics
 router.get('/', function(req, res) {
@@ -14,7 +15,7 @@ router.get('/', function(req, res) {
 });
 
 //CREATE - add new hot topic
-router.post('/', isLoggedIn, function(req, res) {
+router.post('/', middleware.isLoggedIn, function(req, res) {
 	var title = req.body.title;
 	var image = req.body.image;
 	var desc = req.body.description;
@@ -38,7 +39,7 @@ router.post('/', isLoggedIn, function(req, res) {
 });
 
 //NEW - show form to create new hot topic
-router.get('/new', isLoggedIn, function(req, res) {
+router.get('/new', middleware.isLoggedIn, function(req, res) {
 	res.render('hot_topics/new');
 });
 
@@ -58,14 +59,14 @@ router.get('/:id', function(req, res) {
 });
 
 // EDIT HOT TOPIC ROUTE
-router.get('/:id/edit', checkTopicAuthorization, function(req, res) {
+router.get('/:id/edit', middleware.checkTopicAuthorization, function(req, res) {
 	HotTopic.findById(req.params.id, function(err, foundTopic) {
 		res.render('hot_topics/edit', { hot_topic: foundTopic });
 	});
 });
 
 // UPDATE HOT TOPIC ROUTE
-router.put('/:id', checkTopicAuthorization, function(req, res) {
+router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndUpdate(req.params.id, req.body.hot_topic, function(err, updatedHotTopic) {
 		if (err) {
 			res.redirect('/hot_topics');
@@ -76,7 +77,7 @@ router.put('/:id', checkTopicAuthorization, function(req, res) {
 });
 
 // DESTROY HOT TOPIC ROUTE
-router.delete('/:id', checkTopicAuthorization, function(req, res) {
+router.delete('/:id', middleware.checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
 			res.redirect('/hot_topics');
@@ -85,31 +86,5 @@ router.delete('/:id', checkTopicAuthorization, function(req, res) {
 		}
 	});
 });
-
-// MIDDLEWARE
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/login');
-}
-
-function checkTopicAuthorization(req, res, next) {
-	if (req.isAuthenticated()) {
-		HotTopic.findById(req.params.id, function(err, foundTopic) {
-			if (err) {
-				res.redirect('back');
-			} else {
-				if (foundTopic.author.id.equals(req.user._id)) {
-					next();
-				} else {
-					res.redirect('back');
-				}
-			}
-		});
-	} else {
-		res.redirect('back');
-	}
-}
 
 module.exports = router;
