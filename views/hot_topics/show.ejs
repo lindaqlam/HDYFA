@@ -16,7 +16,8 @@
                 <img class="img-responsive" src="<%= hot_topic.image %>">
                 <div class="caption-full">
                     <h4><%= hot_topic.title %></h4>
-                    <p><%= hot_topic.description %></p>              
+                    <p><%= hot_topic.description %></p>       
+                    <p>Asked by: <%= hot_topic.author.username %> </p>       
                 </div>
             </div>
             <div class="well">

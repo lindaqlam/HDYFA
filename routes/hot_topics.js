@@ -18,7 +18,16 @@ router.post('/', isLoggedIn, function(req, res) {
 	var title = req.body.title;
 	var image = req.body.image;
 	var desc = req.body.description;
-	var new_topic = { title: title, image: image, description: desc };
+	var author = {
+		id: req.user._id,
+		username: req.user.username
+	};
+	var new_topic = {
+		title: title,
+		image: image,
+		description: desc,
+		author: author
+	};
 
 	HotTopic.create(new_topic, function(err, newlyCreated) {
 		if (err) {
