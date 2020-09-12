@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser'); //parse information from forms
 var mongoose = require('mongoose');
-var seedDB = require('./seeds');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var methodOverride = require('method-override');
@@ -11,7 +10,6 @@ var HotTopic = require('./models/hot_topic');
 var Comment = require('./models/comment');
 var User = require('./models/user');
 
-// requiring routes
 var commentRoutes = require('./routes/comments');
 var topicRoutes = require('./routes/hot_topics');
 var indexRoutes = require('./routes/index');
@@ -46,8 +44,6 @@ app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	next();
 });
-
-// seedDB();
 
 app.use(indexRoutes);
 app.use('/hot_topics/:id/comments', commentRoutes);
