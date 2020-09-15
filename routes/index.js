@@ -15,10 +15,10 @@ router.get('/register', function(req, res) {
 
 // REGISTER POST
 router.post('/register', function(req, res) {
-	var email = req.body.email;
-	var username = req.body.username;
 	var first_name = req.body.first_name;
 	var last_name = req.body.last_name;
+	var email = req.body.email;
+	var username = req.body.username;
 	var bio = req.body.bio;
 
 	var newUser = new User({
@@ -31,11 +31,17 @@ router.post('/register', function(req, res) {
 
 	User.register(newUser, req.body.password, function(err, user) {
 		if (err) {
-			console.log(err.message);
-			return res.render('register');
+			if (err.message === 'A user with the given username is already registered') {
+				req.flash('error', 'A user with that username is already registered');
+				return res.redirect('/register');
+			} else {
+				req.flash('error', 'A user with that email address is already registered');
+				return res.redirect('/register');
+			}
 		}
 
 		passport.authenticate('local')(req, res, function() {
+			req.flash('success', 'Welcome to HDYFA ' + user.username + '!');
 			res.redirect('/hot_topics');
 		});
 	});
@@ -59,15 +65,20 @@ router.post(
 //LOG OUT
 router.get('/logout', function(req, res) {
 	req.logout();
+	req.flash('success', 'Successfully logged out!');
 	res.redirect('/hot_topics');
 });
 
-// MIDDLEWARE
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	res.redirect('/login');
-}
+// PROFILE ROUTE
+router.get('/user/:username', function(req, res) {
+	User.findOne({ username: req.params.username }, function(err, foundUser) {
+		if (err) {
+			console.log(err);
+		} else {
+			console.log(foundUser);
+			res.render('../views/profile', { user: foundUser });
+		}
+	});
+});
 
 module.exports = router;

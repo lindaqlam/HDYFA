@@ -6,9 +6,7 @@ var middleware = require('../middleware');
 //INDEX - show all hot topics
 router.get('/', function(req, res) {
 	HotTopic.find({}, function(err, all_topics) {
-		if (err) {
-			console.log(err);
-		} else {
+		if (!err) {
 			res.render('hot_topics/index', { hot_topics: all_topics });
 		}
 	});
@@ -32,7 +30,10 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 
 	HotTopic.create(new_topic, function(err, newlyCreated) {
 		if (err) {
+			req.flash('error', 'Your hot topic could not be created.');
+			res.redirect('/hot_topics');
 		} else {
+			req.flash('success', 'Successfully created a hot topic!');
 			res.redirect('/hot_topics');
 		}
 	});
@@ -50,8 +51,9 @@ router.get('/:id', function(req, res) {
 		find HotTopic by id then populating all the comments of that HotTopic,
 		.exec - > execute query HotTopic.findById(req.params.id).populate('comments')
 		*/
-		if (err) {
-			console.log(err);
+		if (err || !foundTopic) {
+			req.flash('error', 'Hot Topic not found');
+			res.render('back');
 		} else {
 			res.render('hot_topics/show', { hot_topic: foundTopic });
 		}
@@ -69,8 +71,10 @@ router.get('/:id/edit', middleware.checkTopicAuthorization, function(req, res) {
 router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndUpdate(req.params.id, req.body.hot_topic, function(err, updatedHotTopic) {
 		if (err) {
+			req.flash('error', 'Your hot topic could not be edited.');
 			res.redirect('/hot_topics');
 		} else {
+			req.flash('success', 'Successfully updated your hot topic!');
 			res.redirect('/hot_topics/' + req.params.id);
 		}
 	});
@@ -80,8 +84,10 @@ router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 router.delete('/:id', middleware.checkTopicAuthorization, function(req, res) {
 	HotTopic.findByIdAndRemove(req.params.id, function(err) {
 		if (err) {
+			req.flash('error', 'Your hot topic could not be deleted.');
 			res.redirect('/hot_topics');
 		} else {
+			req.flash('success', 'Successfully deleted your hot topic!');
 			res.redirect('/hot_topics');
 		}
 	});

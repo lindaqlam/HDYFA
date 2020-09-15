@@ -7,23 +7,27 @@ middlewareObject.isLoggedIn = function(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
+	req.flash('error', 'You must be logged in to perform this action.');
 	res.redirect('/login');
 };
 
 middlewareObject.checkTopicAuthorization = function(req, res, next) {
 	if (req.isAuthenticated()) {
 		HotTopic.findById(req.params.id, function(err, foundTopic) {
-			if (err) {
+			if (err || !foundTopic) {
+				req.flash('error', 'Hot Topic not found');
 				res.redirect('back');
 			} else {
 				if (foundTopic.author.id.equals(req.user._id)) {
 					next();
 				} else {
+					req.flash('error', "You don't have permission");
 					res.redirect('back');
 				}
 			}
 		});
 	} else {
+		req.flash('error', "You don't have permission to edit this hot topic.");
 		res.redirect('back');
 	}
 };
@@ -31,17 +35,20 @@ middlewareObject.checkTopicAuthorization = function(req, res, next) {
 middlewareObject.checkCommentAuthorization = function(req, res, next) {
 	if (req.isAuthenticated()) {
 		Comment.findById(req.params.comment_id, function(err, foundComment) {
-			if (err) {
+			if (err || !foundComment) {
+				req.flash('error', 'Comment not found');
 				res.redirect('back');
 			} else {
 				if (foundComment.author.id.equals(req.user._id)) {
 					next();
 				} else {
+					req.flash('error', "You don't have permission");
 					res.redirect('back');
 				}
 			}
 		});
 	} else {
+		req.flash('error', "You don't have permission to edit this comment.");
 		res.redirect('back');
 	}
 };

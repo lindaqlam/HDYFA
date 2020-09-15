@@ -25,3 +25,38 @@ li input {
 #delete-form {
 	display: inline;
 }
+
+.row {
+	display: flex;
+}
+
+.column {
+	flex: 50%;
+}
+
+.profile-pic {
+	border-radius: 50%;
+	width: 300px;
+}
+
+.opinions-header {
+	text-align: center;
+}
+
+.opinions-header h1 {
+	text-align: center;
+	color: white;
+	background-color: #37a59c;
+	display: inline;
+}
+
+.opinions-header h3 {
+	color: white;
+	background-color: #37a59c;
+	text-align: center;
+	display: inline;
+}
+
+.user-info {
+	text-align: center;
+}
