@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var HotTopic = require('../models/hot_topic');
+var User = require('../models/user');
 var middleware = require('../middleware');
 
 //INDEX - show all hot topics
@@ -28,13 +29,24 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 		author: author
 	};
 
-	HotTopic.create(new_topic, function(err, newlyCreated) {
+	HotTopic.create(new_topic, function(err, newHotTopic) {
 		if (err) {
 			req.flash('error', 'Your hot topic could not be created.');
 			res.redirect('/hot_topics');
 		} else {
-			req.flash('success', 'Successfully created a hot topic!');
-			res.redirect('/hot_topics');
+			User.findOne({ username: req.user.username }, function(err, foundUser) {
+				if (err) {
+					req.flash('error', 'Comment could not be posted');
+					res.redirect('back');
+				} else {
+					foundUser.hot_topics.push(newHotTopic);
+					foundUser.save();
+
+					console.log(foundUser);
+					req.flash('success', 'Successfully created a hot topic!');
+					res.redirect('/hot_topics');
+				}
+			});
 		}
 	});
 });
@@ -74,6 +86,7 @@ router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 			req.flash('error', 'Your hot topic could not be edited.');
 			res.redirect('/hot_topics');
 		} else {
+			console.log(updatedHotTopic);
 			req.flash('success', 'Successfully updated your hot topic!');
 			res.redirect('/hot_topics/' + req.params.id);
 		}

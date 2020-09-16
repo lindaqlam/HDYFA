@@ -71,14 +71,17 @@ router.get('/logout', function(req, res) {
 
 // PROFILE ROUTE
 router.get('/user/:username', function(req, res) {
-	User.findOne({ username: req.params.username }, function(err, foundUser) {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log(foundUser);
-			res.render('../views/profile', { user: foundUser });
-		}
-	});
+	User.findOne({ username: req.params.username })
+		.populate('comments')
+		.populate('hot_topics')
+		.exec(function(err, foundUser) {
+			if (err || !foundUser) {
+				req.flash('error', 'User not found');
+				res.render('back');
+			} else {
+				res.render('../views/profile', { user: foundUser });
+			}
+		});
 });
 
 module.exports = router;

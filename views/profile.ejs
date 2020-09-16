@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="row">
+        <div class="column user-info">
+            <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
+            <h2><%= user.first_name %> <%= user.last_name %></h2>
+            <h3>@<%= user.username %></h3>
+            <p><%= user.bio %></p>
+
+            <hr>
+
+            <div class="opinions-header">
+                <h3>Fave Hot Topics</h3>
+            </div>
+            
+            <% user.hot_topics.forEach(function(hot_topic){ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p><%= hot_topic.title %></p>                            
+                        <hr>
+                    </div>
+                </div>
+            <% }) %>
+            
+        </div>
+    
+        
+        <div class="column">
+            <div class="opinions-header">
+                <h1>Has opinions about...</h1>
+                <% user.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p><%= comment.text %></p>                            
+                            <hr>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<%- include('partials/footer') %>

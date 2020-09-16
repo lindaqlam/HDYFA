@@ -81,17 +81,8 @@ router.put('/:comment_id', middleware.checkCommentAuthorization, function(req, r
 			req.flash('error', 'Your comment could not be edited.');
 			res.redirect('back');
 		} else {
-			User.findOne({ username: foundComment.author.username }, function(err, foundUser) {
-				if (err) {
-					req.flash('error', 'Your comment could not be edited.');
-					res.redirect('back');
-				} else {
-					foundUser.comment.findByIdAndUpdate({ comment_id: req.paramts.comment_id }, function(err) {});
-				}
-
-				req.flash('success', 'Successfully edited your comment!');
-				res.redirect('/hot_topics/' + req.params.id);
-			});
+			req.flash('success', 'Successfully edited your comment!');
+			res.redirect('/hot_topics/' + req.params.id);
 		}
 	});
 });
@@ -99,20 +90,10 @@ router.put('/:comment_id', middleware.checkCommentAuthorization, function(req, r
 // COMMENT DELETE ROUTE
 router.delete('/:comment_id', middleware.checkCommentAuthorization, function(req, res) {
 	Comment.findByIdAndRemove(req.params.comment_id, function(err, foundComment) {
-		if (err) {
+		if (err || !foundComment) {
 			req.flash('error', 'Your comment could not be deleted.');
 			res.redirect('back');
 		} else {
-			User.findOne({ username: foundComment.author.username }, function(err, foundUser) {
-				if (err) {
-					req.flash('error', 'Your comment could not be deleted.');
-					res.redirect('back');
-				} else {
-					foundUser.comments.pull(req.params.comment_id);
-					foundUser.save();
-				}
-			});
-
 			req.flash('success', 'Successfully deleted your comment');
 			res.redirect('/hot_topics/' + req.params.id);
 		}
