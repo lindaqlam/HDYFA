@@ -3,8 +3,8 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1>Hot Topics</h1>
-            <p>How do you feel about hot topics?</p>
+            <h1><strong>Hot Topics</strong></h1>
+            <p>How do you feel about...</p>
             <p>
                 <a class="btn btn-primary btn-lg" href="/hot_topics/new">Post a new hot topic</a>
             </p>
@@ -15,15 +15,11 @@
         <% hot_topics.forEach(function(hot_topic){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                    <img src="<%= hot_topic.image %>">
+                    <a href="/hot_topics/<%= hot_topic._id %>"><img src="<%= hot_topic.image %>"></a>
                     <div class="caption">
-                        <h4><%= hot_topic.title %></h4>
+                        <h4><a href="/hot_topics/<%= hot_topic._id %>"><%= hot_topic.title %></a></h4>
                     </div>
-                    <p>
-                        <a href="/hot_topics/<%= hot_topic._id %>" class="btn btn-primary">More Info</a>
-                    </p>
                 </div>
-
             </div>
         <% }); %>
     </div>

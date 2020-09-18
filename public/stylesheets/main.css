@@ -1,3 +1,15 @@
+body {
+	background-color: #fff;
+	font-family: "Montserrat", "Avenir";
+	display: flex;
+	flex-direction: column;
+}
+
+html,
+body {
+	height: 100%;
+}
+
 .thumbnail img {
 	width: 100%;
 }
@@ -39,24 +51,54 @@ li input {
 	width: 300px;
 }
 
-.opinions-header {
-	text-align: center;
-}
-
-.opinions-header h1 {
-	text-align: center;
-	color: white;
-	background-color: #37a59c;
-	display: inline;
-}
-
-.opinions-header h3 {
+.teal-bg {
 	color: white;
 	background-color: #37a59c;
 	text-align: center;
 	display: inline;
+}
+
+.opinions-column {
+	text-align: center;
+	margin-top: 30px;
 }
 
 .user-info {
+	text-align: center;
+}
+
+.footer {
+	flex-shrink: 0;
+	padding: 20px;
+	text-align: center;
+	position: fixed;
+	align-items: center;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+footer a {
+	color: teal;
+	text-decoration: none;
+}
+
+.profile-topics {
+	padding-top: 5px;
+}
+
+.caption a {
+	color: black;
+}
+
+.about-title {
+	color: white;
+	text-align: center;
+	background-color: #37a59c;
+	display: inline-block;
+	width: 100%;
+}
+
+.about-body {
 	text-align: center;
 }

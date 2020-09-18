@@ -41,8 +41,6 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 				} else {
 					foundUser.hot_topics.push(newHotTopic);
 					foundUser.save();
-
-					console.log(foundUser);
 					req.flash('success', 'Successfully created a hot topic!');
 					res.redirect('/hot_topics');
 				}
@@ -86,7 +84,6 @@ router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 			req.flash('error', 'Your hot topic could not be edited.');
 			res.redirect('/hot_topics');
 		} else {
-			console.log(updatedHotTopic);
 			req.flash('success', 'Successfully updated your hot topic!');
 			res.redirect('/hot_topics/' + req.params.id);
 		}

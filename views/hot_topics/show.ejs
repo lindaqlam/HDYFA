@@ -17,7 +17,7 @@
                 <div class="caption-full">
                     <h4><%= hot_topic.title %></h4>
                     <p><%= hot_topic.description %></p>       
-                    <p>Asked by: <%= hot_topic.author.username %> </p>  
+                    <p>Posted by: <a href="/user/<%= hot_topic.author.username %>"><%= hot_topic.author.username %></a></p>  
                     <% if (currentUser && hot_topic.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/hot_topics/<%= hot_topic._id %>/edit">Edit</a>  
                         <form id="delete-form" action="/hot_topics/<%= hot_topic._id %>?_method=DELETE" method="POST">
@@ -34,7 +34,7 @@
                 <% hot_topic.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12">
-                            <strong><%= comment.author.username %></strong> 
+                            <strong><a href="/user/<%= comment.author.username %>"><%= comment.author.username %></a></strong> 
                             <span class="pull-right">10 days ago</span> 
                             <p><%= comment.text %></p>
 

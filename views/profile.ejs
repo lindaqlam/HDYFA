@@ -4,40 +4,36 @@
     <div class="row">
         <div class="column user-info">
             <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
-            <h2><%= user.first_name %> <%= user.last_name %></h2>
-            <h3>@<%= user.username %></h3>
+            <hr>
+            <h2 class="teal-bg">@<%= user.username %></h2>
+            <h3><%= user.first_name %> <%= user.last_name %></h3>
             <p><%= user.bio %></p>
 
             <hr>
 
-            <div class="opinions-header">
-                <h3>Fave Hot Topics</h3>
-            </div>
-            
-            <% user.hot_topics.forEach(function(hot_topic){ %>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p><%= hot_topic.title %></p>                            
-                        <hr>
-                    </div>
-                </div>
-            <% }) %>
-            
         </div>
     
         
-        <div class="column">
-            <div class="opinions-header">
-                <h1>Has opinions about...</h1>
+        <div class="column opinions-column">
+            <h1 class="teal-bg">Hot Topics</h1>
+            
+            <% user.hot_topics.forEach(function(hot_topic){ %>
+                <div class="row">
+                    <div class="col-md-12 profile-topics">
+                        <a href="/hot_topics/<%= hot_topic._id %>"><%= hot_topic.title %></a>
+                    </div>
+                </div>
+            <% }) %>
+            <hr>
+            
+            <h1 class="teal-bg">HOT TAKES</h1>
                 <% user.comments.forEach(function(comment){ %>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 profile-topics">
                             <p><%= comment.text %></p>                            
-                            <hr>
                         </div>
                     </div>
                 <% }) %>
-            </div>
         </div>
     </div>
 </div>
