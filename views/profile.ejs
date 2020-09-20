@@ -2,20 +2,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="column user-info">
-            <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
-            <hr>
-            <h2 class="teal-bg">@<%= user.username %></h2>
-            <h3><%= user.first_name %> <%= user.last_name %></h3>
-            <p><%= user.bio %></p>
-
-            <hr>
-
+        <div class="column user-info d-flex align-items-center">
+            <div class="">
+                <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
+                <hr>
+                <h3 class="username-bg">@<%= user.username %></h3> <h3 id="profile-name">- <%= user.first_name %> <%= user.last_name %></h3>
+                <p id="user-bio"><%= user.bio %></p>
+            </div>
         </div>
     
         
         <div class="column opinions-column">
-            <h1 class="teal-bg">Hot Topics</h1>
+            <h1 class="heading-bg">HOT TOPICS</h1>
             
             <% user.hot_topics.forEach(function(hot_topic){ %>
                 <div class="row">
@@ -26,20 +24,22 @@
             <% }) %>
             <hr>
             
-            <h1 class="teal-bg">HOT TAKES</h1>
+            <h1 class="heading-bg">HOT TAKES</h1>
                 <% user.comments.forEach(function(comment){ %>
                     <div class="row">
-                        <div class="col-md-12 profile-topics">
-                            <p><%= comment.text %></p>                            
+                        <div class="col-md-12 profile-topics hot-takes">
+                            <p><strong><%= comment.hot_topic.title %></strong></p>
+                            <% if (comment.text.length < 270) { %>
+                                <p><%= comment.text %></p>
+                            <% } else { %>
+                                <p><%= comment.text.substring(0, 270) %> ... </p>
+                                <a class="btn btn-xs btn-outline-dark pull-right" href="/hot_topics/<%= comment.hot_topic._id %>">Read More</a>
+                            <% } %>
                         </div>
                     </div>
                 <% }) %>
         </div>
     </div>
 </div>
-
-
-
-
 
 <%- include('partials/footer') %>

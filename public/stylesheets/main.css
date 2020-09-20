@@ -51,11 +51,25 @@ li input {
 	width: 300px;
 }
 
-.teal-bg {
+.username-bg {
 	color: white;
-	background-color: #37a59c;
+	background-color: #ee6f57;
 	text-align: center;
 	display: inline;
+}
+
+#profile-name {
+	display: inline;
+}
+
+#user-bio {
+	padding-top: 20px;
+}
+
+.heading-bg {
+	color: white;
+	background-color: #ee6f57;
+	text-align: center;
 }
 
 .opinions-column {
@@ -85,6 +99,10 @@ footer a {
 
 .profile-topics {
 	padding-top: 5px;
+}
+
+.hot-takes {
+	text-align: left;
 }
 
 .caption a {

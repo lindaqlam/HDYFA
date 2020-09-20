@@ -72,7 +72,12 @@ router.get('/logout', function(req, res) {
 // PROFILE ROUTE
 router.get('/user/:username', function(req, res) {
 	User.findOne({ username: req.params.username })
-		.populate('comments')
+		.populate({
+			path: 'comments',
+			populate: {
+				path: 'hot_topic'
+			}
+		})
 		.populate('hot_topics')
 		.exec(function(err, foundUser) {
 			if (err || !foundUser) {

@@ -9,6 +9,10 @@ var commentSchema = mongoose.Schema(
 				ref: 'User'
 			},
 			username: String
+		},
+		hot_topic: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'HotTopic'
 		}
 	},
 	{ timestamps: true }

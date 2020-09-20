@@ -33,6 +33,7 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 				} else {
 					comment.author.id = req.user._id;
 					comment.author.username = req.user.username;
+					comment.hot_topic = hot_topic;
 					comment.save();
 					hot_topic.comments.push(comment);
 					hot_topic.save();
