@@ -82,11 +82,76 @@ router.get('/user/:username', function(req, res) {
 		.exec(function(err, foundUser) {
 			if (err || !foundUser) {
 				req.flash('error', 'User not found');
-				res.render('back');
+				res.redirect('/user/' + req.params.username);
 			} else {
 				res.render('../views/profile', { user: foundUser });
 			}
 		});
+});
+
+router.get('/user/edit/:username', function(req, res) {
+	User.findOne({ username: req.params.username }, function(err, foundUser) {
+		if (err || !foundUser) {
+			req.flash('error', 'User not found');
+			res.redirect('/hot_topics');
+		} else {
+			res.render('edit', { user: foundUser });
+		}
+	});
+});
+
+router.put('/user/edit_profile/:username', function(req, res) {
+	console.log('req.body');
+	console.log(req.body);
+
+	var updatedInfo = {
+		first_name: req.body.first_name,
+		last_name: req.body.last_name,
+		// username: req.body.username,
+		email: req.body.email,
+		bio: req.body.bio,
+		photo: req.body.photo
+	};
+
+	var options = {
+		new: true
+	};
+
+	User.findOneAndUpdate({ username: req.params.username }, updatedInfo, options, function(err, updatedUser) {
+		if (err || !updatedUser) {
+			console.log(err);
+			req.flash('error', 'Your profile could not be edited.');
+			res.render('back');
+		} else {
+			console.log('updatedUser');
+			console.log(updatedUser);
+			req.flash('success', 'Successfully edited your profile!');
+			res.redirect('/user/' + req.params.username);
+		}
+	});
+});
+
+router.put('/user/edit_password/:username', function(req, res) {
+	if (req.body.new_password !== req.body.confirm_password) {
+		req.flash('error', "Passwords don't match.");
+		res.redirect('/user/edit/' + req.params.username);
+	} else {
+		User.findOne({ username: req.params.username }, function(err, foundUser) {
+			if (err || !foundUser) {
+				console.log(err);
+			} else {
+				foundUser.changePassword(req.body.password, req.body.new_password, function(err) {
+					if (err) {
+						req.flash('error', 'Password is incorrect.');
+						res.redirect('/user/edit/' + req.params.username);
+					} else {
+						req.flash('success', 'Successfully changed your password!');
+						res.redirect('/user/' + req.params.username);
+					}
+				});
+			}
+		});
+	}
 });
 
 router.get('/about', function(req, res) {
