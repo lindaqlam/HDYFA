@@ -1,37 +1,50 @@
 <%- include('partials/header') %>
 
-<h1>Edit your profile</h1>
+<div class="user-form">
+    <div>
+        <h1>Edit your profile</h1>
+    </div>
 
-<form action="/user/edit_profile/<%= user.username %>?_method=PUT" method="POST">
-    <ul>
-        <li><label for="first_name">First name: </label><input type="first_name" name="first_name" pattern="[a-zA-Z ]+" title="First name required" value="<%= user.first_name %>" required></li>
-        <li><label for="last">Last name: </label><input type="last_name" name="last_name" pattern="[a-zA-Z]+" title="Last name optional" value="<%= user.last_name %>"></li>
-        <!-- <li><label for="username">Username:</label><input type="text" name="username" pattern="[a-z0-9-_]+" title="Must only contain lowercase letters, numbers, and underscore (_) or hyphen (-)" value="<%= user.username %>" required></li> -->
-        <li><label for="email">Email address: </label><input type="email" name="email" title="Valid email address" value="<%= user.email %>" required></li>
-        <li><label for="bio">One-line Bio:</label><input type="bio" name="bio" title="One line about yourself (optional)" value="<%= user.bio %>"></li>
-        <li><label for="photo">Profile photo link:</label><input type="url" name="photo" title="Profile photo link must start with http: (optional)" value="<%= user.photo %>"></li></li>
-        <hr>
-        <li>Please confirm by entering your password:</li>
-        <li><label for="password">Password:</label><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" value="<%= user.password %>" required></li>
+    <div>
+        <form class="user-form" action="/user/edit_profile/<%= user.username %>?_method=PUT" method="POST">
+            <ul>
+                <li><label for="first_name">First name: </label><input type="first_name" name="first_name" pattern="[a-zA-Z ]+" title="First name required" value="<%= user.first_name %>" required></li>
+                <li><label for="last">Last name: </label><input type="last_name" name="last_name" pattern="[a-zA-Z]+" title="Last name optional" value="<%= user.last_name %>"></li>
+                <!-- <li><label for="username">Username:</label><input type="text" name="username" pattern="[a-z0-9-_]+" title="Must only contain lowercase letters, numbers, and underscore (_) or hyphen (-)" value="<%= user.username %>" required></li> -->
+                <li><label for="email">Email address: </label><input type="email" name="email" title="Valid email address" value="<%= user.email %>" required></li>
+                <li><label for="bio">One-line Bio:</label><input type="bio" name="bio" title="One line about yourself (optional)" value="<%= user.bio %>"></li>
+                <br>
+                <li>Please confirm the changes by entering your password:</li>
+                <li><label for="password">Password:</label><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" value="<%= user.password %>" required></li>
+    
+            </ul>
+            <button>Update profile information</button>
+        </form>
+    </div>
 
-    </ul>
-    <button>Update profile information</button>
-</form>
+    <hr>
 
-<hr>
-<h1>Change your password</h1>
+    <div>
+        <h1>Change your password</h1>
+    </div>
+    
+    <div>
+        <form class="user-form" action="/user/edit_password/<%= user.username %>?_method=PUT" method="POST">
+            <ul>
+                <li><label for="password">New password:</label><input type="password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" required></li>
+                <li><label for="password">Confirm password:</label><input type="password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must match password in field above" required></li>
+                <br>
+                <li>Please confirm the changes by entering your current password:</li>
+                <li><label for="password">Password:</label><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter your current password" required></li>
+    
+            </ul>
+            <button>Update password</button>
+        </form>
+    </div>
+</div>
 
-<form action="/user/edit_password/<%= user.username %>?_method=PUT" method="POST">
-    <ul>
-        <li><label for="password">Password:</label><input type="password" name="new_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" required></li>
-        <li><label for="password">Confirm Password:</label><input type="password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must match password in field above" required></li>
-        <hr>
-        <li>Please confirm the changes by entering your current password:</li>
-        <li><label for="password">Password:</label><input type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Please enter your current password" required></li>
-
-    </ul>
-    <button>Update password</button>
-</form>
 
 
-<%- include('partials/footer') %>
+
+</body>
+</html>

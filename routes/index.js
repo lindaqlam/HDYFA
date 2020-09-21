@@ -154,6 +154,10 @@ router.put('/user/edit_password/:username', function(req, res) {
 	}
 });
 
+router.get('/reset_password', function(req, res) {
+	res.render('reset_password');
+});
+
 router.get('/about', function(req, res) {
 	res.render('about');
 });

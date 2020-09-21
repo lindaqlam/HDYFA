@@ -22,7 +22,7 @@
                         <li><a href="/about">About</a></li>
                         <li><a href="/hot_topics">Hot Topics</a></li>
                         <% if (!currentUser) { %>
-                            <li><a href="/login">Login</a></li>
+                            <li><a href="/login">Sign In</a></li>
                             <li><a href="/register">Sign Up</a></li>
                         <% } else { %>
                             <li><a href="/user/<%= currentUser.username %>">Signed In As <%= currentUser.username %></a></li>
