@@ -5,8 +5,8 @@
         <h1 style="text-align:center;">Report Hot Topic titled "<%= hot_topic.title %>"</h1>
         <div style="width:30%; margin: 25px auto;">
             <form class="user-form" action="/hot_topics/<%= hot_topic._id %>/report" method="post">
-                <label for="report_reason">Reason for reporting: </label><textarea class="textbox" rows="10" cols="50" type="report_reason" name="report_reason" required></textarea>
-                <input type="submit" value="Submit">
+                <label for="report_reason">Reason for reporting: </label><textarea class="textbox" rows="10" cols="100" type="report_reason" name="report_reason" required></textarea>
+                <button class="btn btn-lg btn-primary btn-block">Submit</button> 
             </form> 
             <a href="/hot_topics/<%= hot_topic._id %>">Go back</a>           
             

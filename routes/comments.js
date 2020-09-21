@@ -39,8 +39,6 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 					hot_topic.comments.push(comment);
 					hot_topic.save();
 
-					console.log(comment);
-
 					User.findOne({ username: comment.author.username }, function(err, foundUser) {
 						if (err) {
 							req.flash('error', 'Comment could not be posted');

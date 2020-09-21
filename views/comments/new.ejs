@@ -4,16 +4,12 @@
     <div class="user-form">
         <h1 style="text-align:center;">So, how do you feel about it?</h1>
         <div style="width:30%; margin: 25px auto;">
-            <form action="/hot_topics/<%= hot_topic._id %>/comments" method="POST">
-                <div class="form-group">
-                    <input class="form-control" type="text" name="comment[text]" placeholder="text">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block">Submit</button>
-                </div>                
+            <form class="user-form" action="/hot_topics/<%= hot_topic._id %>/comments" method="POST">
+                <textarea class="textbox" rows="10" cols="100" type="text" name="comment[text]" required></textarea>
+                <button class="btn btn-lg btn-primary btn-block">Submit</button>                
             </form>
             
-            <a href="/hot_topics">Go back</a>
+            <a href="/hot_topics/<%= hot_topic._id %>">Go back</a>
         </div>
         
     </div>
