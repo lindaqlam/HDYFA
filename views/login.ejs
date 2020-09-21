@@ -1,24 +1,25 @@
 <%- include('partials/header') %>
 
-<div class="user-form">
-    <div>
-        <h1>Sign In</h1>
-    </div>
-    
-    <div>
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="username">
-            <input type="password" name="password" placeholder="password">
-            <input type="submit" value="Login">
-        </form>
-    </div>
+<div class="container">
+    <div class="user-form">
+        <div>
+            <h1>Sign In</h1>
+        </div>
+        
+        <div>
+            <form action="/login" method="POST">
+                <input type="text" name="username" placeholder="username">
+                <input type="password" name="password" placeholder="password">
+                <input type="submit" value="Login">
+            </form>
+        </div>
 
-    <div id="forgot-pw">
-        <a href="/reset_password">Forgot Password</a> 
-    </div>   
+        <div id="forgot-pw">
+            <a href="/reset_password">Forgot Password</a> 
+        </div>   
 
+    </div>
 </div>
-
 
 
 

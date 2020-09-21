@@ -1,25 +1,26 @@
 <%- include('partials/header') %>
 
-<div class="user-form">
-    <div>
-        <h1>Sign Up</h1>
-    </div>
+<div class="container">
+    <div class="user-form">
+        <div>
+            <h1>Sign Up</h1>
+        </div>
 
-    <div>
-        <form class="user-form" action="/register" method="post">
-            <ul>
-                <li><label for="first_name">First name: </label><input type="first_name" name="first_name" placeholder="first name" pattern="[a-zA-Z ]+" title="First name" required></li>
-                <li><label for="last">Last name: </label><input type="last_name" name="last_name" placeholder="last name" pattern="[a-zA-Z]+" title="Last name optional"></li>
-                <li><label for="email">Email address: </label><input type="email" name="email" placeholder="email" title="Valid email address" required></li>
-                <li><label for="username">Username:</label><input type="text" name="username" placeholder="username" pattern="[a-z0-9-_]+" title="Must only contain lowercase letters, numbers, and underscore (_) or hyphen (-)" required></li>
-                <li><label for="password">Password:</label><input type="password" name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" required></li>
-                <li><label for="bio">One-line Bio:</label><input type="bio" name="bio" placeholder="one-line bio" title="One line about yourself (optional)"></li>
-                <li><label for="photo">Profile photo link:</label><input type="url" name="photo" placeholder="photo link" title="Profile photo link must start with http: (optional)"></li></li>
-            </ul>
-            <input type="submit" value="Signup">
-        </form>
+        <div>
+            <form class="user-form" action="/register" method="post">
+                <ul>
+                    <li><label for="first_name">First name: </label><input type="first_name" name="first_name" placeholder="first name" pattern="[a-zA-Z ]+" title="First name" required></li>
+                    <li><label for="last">Last name: </label><input type="last_name" name="last_name" placeholder="last name" pattern="[a-zA-Z]+" title="Last name optional"></li>
+                    <li><label for="email">Email address: </label><input type="email" name="email" placeholder="email" title="Valid email address" required></li>
+                    <li><label for="username">Username:</label><input type="text" name="username" placeholder="username" pattern="[a-z0-9-_]+" title="Must only contain lowercase letters, numbers, and underscore (_) or hyphen (-)" required></li>
+                    <li><label for="password">Password:</label><input type="password" name="password" placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least 1 number, 1 uppercase letter, 1 lowercase letter, and be at least 8 characters" required></li>
+                    <li><label for="bio">One-line Bio:</label><input type="bio" name="bio" placeholder="one-line bio" title="One line about yourself (optional)"></li>
+                    <li><label for="photo">Profile photo link:</label><input type="url" name="photo" placeholder="photo link" title="Profile photo link must start with http: (optional)"></li></li>
+                </ul>
+                <input type="submit" value="Signup">
+            </form>
+        </div>
     </div>
 </div>
-
 
 <%- include('partials/footer') %>

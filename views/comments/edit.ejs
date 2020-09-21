@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 <div class="container">
-    <div class="row">
+    <div class="user-form">
         <h1 style="text-align:center;">EDIT COMMENT</h1>
         <div style="width:30%; margin: 25px auto;">
             <form action="/hot_topics/<%= hot_topic_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
@@ -18,3 +18,5 @@
         
     </div>
 </div>
+
+<%- include('../partials/footer') %>

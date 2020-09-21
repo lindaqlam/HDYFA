@@ -1,16 +1,34 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HDYFA</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/solid.min.css">
+    </head>
 
-<div class="container">
-    <header class="jumbotron">
-        <div class="container">
-            <h1 id="landing-title">HDYFA...</h1>
-            <p>How do you feel about hot topics?</p>
-            
+    <body class="landing-page">
+        
+    <div class="container">
+        <div class="container landing">
+            <div class="container cont-main">
+                <div>
+                    <h1 id="landing-title">HDYFA...</h1>
+                </div>
+
+                <div class="row landing-buttons ">
+                    <a class="btn btn-warning btn-block landing-btn" href="/login" role="button">Sign In</a>
+                    <a class="btn btn-warning btn-block landing-btn" href="/register" role="button">Sign Up</a>
+                    <a class="btn btn-warning btn-block landing-btn" href="/hot_topics" role="button">Hot Topics</a>
+                </div>
+            </div>
         </div>
-    </header>
+    </div>
 
-</div>
-
-<%- include('partials/footer') %>
+    </body>
+    </html>
 
 
