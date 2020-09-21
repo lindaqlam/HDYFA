@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
+var middleware = require('../middleware');
 
 // ROOT ROUTE
 router.get('/', function(req, res) {
@@ -89,7 +90,7 @@ router.get('/user/:username', function(req, res) {
 		});
 });
 
-router.get('/user/edit/:username', function(req, res) {
+router.get('/user/edit/:username', middleware.checkAccountAuthorization, function(req, res) {
 	User.findOne({ username: req.params.username }, function(err, foundUser) {
 		if (err || !foundUser) {
 			req.flash('error', 'User not found');
@@ -100,7 +101,7 @@ router.get('/user/edit/:username', function(req, res) {
 	});
 });
 
-router.put('/user/edit_profile/:username', function(req, res) {
+router.put('/user/edit_profile/:username', middleware.checkAccountAuthorization, function(req, res) {
 	console.log('req.body');
 	console.log(req.body);
 
@@ -131,7 +132,7 @@ router.put('/user/edit_profile/:username', function(req, res) {
 	});
 });
 
-router.put('/user/edit_password/:username', function(req, res) {
+router.put('/user/edit_password/:username', middleware.checkAccountAuthorization, function(req, res) {
 	if (req.body.new_password !== req.body.confirm_password) {
 		req.flash('error', "Passwords don't match.");
 		res.redirect('/user/edit/' + req.params.username);

@@ -2,12 +2,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="column user-info d-flex align-items-center">
-            <div class="">
+        <div class="column user-info">
+            <div>
                 <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
-                <hr>
+                <br>
+                <br>
                 <h3 class="username-bg">@<%= user.username %></h3> <h3 id="profile-name">- <%= user.first_name %> <%= user.last_name %></h3>
                 <p id="user-bio"><%= user.bio %></p>
+
+                <% if (currentUser && user._id.equals(currentUser._id)){ %>
+                    <a class="btn btn-xs btn-warning" href="/user/edit/<%= user.username %>">Edit Profile</a>
+                <% } %>     
+                
             </div>
         </div>
     
@@ -42,4 +48,5 @@
     </div>
 </div>
 
-<%- include('partials/footer') %>
+</body>
+</html>

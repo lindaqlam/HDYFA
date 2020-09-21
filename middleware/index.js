@@ -1,5 +1,6 @@
 var HotTopic = require('../models/hot_topic');
 var Comment = require('../models/comment');
+var User = require('../models/user');
 
 var middlewareObject = {};
 
@@ -50,6 +51,26 @@ middlewareObject.checkCommentAuthorization = function(req, res, next) {
 	} else {
 		req.flash('error', "You don't have permission to edit this comment.");
 		res.redirect('back');
+	}
+};
+
+middlewareObject.checkAccountAuthorization = function(req, res, next) {
+	if (req.isAuthenticated()) {
+		User.findOne({ username: req.params.username }, function(err, foundUser) {
+			if (err || !foundUser) {
+				console.log(err);
+			} else {
+				if (foundUser._id.equals(req.user._id)) {
+					next();
+				} else {
+					req.flash('error', "You don't have permission to edit this profile.");
+					res.redirect('/hot_topics');
+				}
+			}
+		});
+	} else {
+		req.flash('error', "You don't have permission to edit this profile.");
+		res.redirect('/login');
 	}
 };
 
