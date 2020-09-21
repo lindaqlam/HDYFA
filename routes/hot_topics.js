@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var HotTopic = require('../models/hot_topic');
 var User = require('../models/user');
+var Report = require('../models/report');
 var middleware = require('../middleware');
 
 //INDEX - show all hot topics
@@ -99,6 +100,41 @@ router.delete('/:id', middleware.checkTopicAuthorization, function(req, res) {
 		} else {
 			req.flash('success', 'Successfully deleted your hot topic!');
 			res.redirect('/hot_topics');
+		}
+	});
+});
+
+router.get('/:id/report', function(req, res) {
+	HotTopic.findById(req.params.id, function(err, foundTopic) {
+		if (err || !foundTopic) {
+			req.flash('error', 'An error has occued. Please try again.');
+			res.redirect('back');
+		} else {
+			res.render('hot_topics/report', { hot_topic: foundTopic });
+		}
+	});
+});
+
+router.post('/:id/report', middleware.isLoggedIn, function(req, res) {
+	HotTopic.findById(req.params.id, function(err, foundTopic) {
+		if (err || !foundTopic) {
+			req.flash('error', 'An error has occued. Please try again.');
+			res.redirect('back');
+		} else {
+			Report.create({ reason: req.body.report_reason }, function(err, report) {
+				if (err) {
+					req.flash('error', 'An error has occued. Please try again.');
+					res.redirect('back');
+				} else {
+					report.author.id = req.user._id;
+					report.author.username = req.user.username;
+					report.hot_topic = foundTopic;
+					report.save();
+
+					req.flash('success', 'This Hot Topic is now under review. We will respond shortly.');
+					res.redirect('/hot_topics/' + foundTopic._id);
+				}
+			});
 		}
 	});
 });

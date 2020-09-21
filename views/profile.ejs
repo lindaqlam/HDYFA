@@ -34,7 +34,7 @@
                 <% user.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12 profile-topics hot-takes">
-                            <p><strong><%= comment.hot_topic.title %></strong></p>
+                            <p><strong><a href="/hot_topics/<%= comment.hot_topic._id %>"><%= comment.hot_topic.title %></a></strong></p>
                             <% if (comment.text.length < 270) { %>
                                 <p><%= comment.text %></p>
                             <% } else { %>

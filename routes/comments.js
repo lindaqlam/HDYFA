@@ -3,6 +3,7 @@ var router = express.Router({ mergeParams: true });
 var HotTopic = require('../models/hot_topic');
 var User = require('../models/user');
 var Comment = require('../models/comment');
+var Report = require('../models/report');
 var middleware = require('../middleware');
 
 // COMMENTS NEW
@@ -38,6 +39,8 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 					hot_topic.comments.push(comment);
 					hot_topic.save();
 
+					console.log(comment);
+
 					User.findOne({ username: comment.author.username }, function(err, foundUser) {
 						if (err) {
 							req.flash('error', 'Comment could not be posted');
@@ -45,11 +48,11 @@ router.post('/', middleware.isLoggedIn, function(req, res) {
 						} else {
 							foundUser.comments.push(comment);
 							foundUser.save();
+
+							req.flash('success', 'Successfully posted your comment!');
+							res.redirect('/hot_topics/' + hot_topic._id);
 						}
 					});
-
-					req.flash('success', 'Successfully posted your comment!');
-					res.redirect('/hot_topics/' + hot_topic._id);
 				}
 			});
 		}
@@ -93,10 +96,46 @@ router.delete('/:comment_id', middleware.checkCommentAuthorization, function(req
 	Comment.findByIdAndRemove(req.params.comment_id, function(err, foundComment) {
 		if (err || !foundComment) {
 			req.flash('error', 'Your comment could not be deleted.');
-			res.redirect('back');
+			return res.redirect('back');
 		} else {
 			req.flash('success', 'Successfully deleted your comment');
 			res.redirect('/hot_topics/' + req.params.id);
+		}
+	});
+});
+
+// COMMENT REPORT ROUTES
+router.get('/:comment_id/report', middleware.isLoggedIn, function(req, res) {
+	Comment.findById(req.params.comment_id, function(err, foundComment) {
+		if (err) {
+			req.flash('error', 'An error has occued. Please try again.');
+			return res.redirect('back');
+		} else {
+			res.render('comments/report', { comment: foundComment });
+		}
+	});
+});
+
+router.post('/:comment_id/report', middleware.isLoggedIn, function(req, res) {
+	Comment.findById(req.params.comment_id, function(err, foundComment) {
+		if (err || !foundComment) {
+			req.flash('error', 'An error has occued. Please try again.');
+			return res.redirect('back');
+		} else {
+			Report.create({ reason: req.body.report_reason }, function(err, report) {
+				if (err) {
+					req.flash('error', 'An error has occued. Please try again.');
+					return res.redirect('back');
+				} else {
+					report.author.id = req.user._id;
+					report.author.username = req.user.username;
+					report.comment = foundComment;
+					report.save();
+					console.log(report);
+					req.flash('success', 'This Hot Take is now under review. We will respond shortly.');
+					res.redirect('/hot_topics/' + foundComment.hot_topic._id);
+				}
+			});
 		}
 	});
 });
