@@ -9,6 +9,7 @@ var UserSchema = new mongoose.Schema(
 			required: true
 		},
 		last_name: String,
+		birthday: Date,
 		email: {
 			type: String,
 			lowercase: true,
@@ -16,6 +17,10 @@ var UserSchema = new mongoose.Schema(
 			required: true,
 			match: [ /\S+@\S+\.\S+/, 'is invalid' ],
 			index: true
+		},
+		gender: {
+			type: String,
+			required: true
 		},
 		username: {
 			type: String,

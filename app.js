@@ -24,6 +24,7 @@ mongoose
 	.then(() => console.log('Connected to DB!'))
 	.catch((error) => console.log(error.message));
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));

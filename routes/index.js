@@ -18,6 +18,8 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res) {
 	var first_name = req.body.first_name;
 	var last_name = req.body.last_name;
+	var birthday = req.body.birthday;
+	var gender = req.body.gender;
 	var email = req.body.email;
 	var username = req.body.username;
 	var bio = req.body.bio;
@@ -25,6 +27,8 @@ router.post('/register', function(req, res) {
 	var newUser = new User({
 		first_name: first_name,
 		last_name: last_name,
+		birthday: birthday,
+		gender: gender,
 		email: email,
 		username: username,
 		bio: bio
@@ -42,6 +46,7 @@ router.post('/register', function(req, res) {
 		}
 
 		passport.authenticate('local')(req, res, function() {
+			console.log(user.gender);
 			req.flash('success', 'Welcome to HDYFA ' + user.username + '!');
 			res.redirect('/hot_topics');
 		});
