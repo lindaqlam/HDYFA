@@ -46,7 +46,6 @@ router.post('/register', function(req, res) {
 		}
 
 		passport.authenticate('local')(req, res, function() {
-			console.log(user.gender);
 			req.flash('success', 'Welcome to HDYFA ' + user.username + '!');
 			res.redirect('/hot_topics');
 		});
