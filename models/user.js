@@ -50,12 +50,10 @@ var UserSchema = new mongoose.Schema(
 		],
 		hash: String,
 		salt: String
-	}
-	// ,
-	// { timestamps: true }
+	},
+	{ timestamps: true }
 );
 
-//UserSchema.plugin(uniqueValidator, { message: '{PATH} is already associated with an account.' });
 UserSchema.plugin(uniqueValidator);
 
 UserSchema.plugin(passportLocalMongoose);
