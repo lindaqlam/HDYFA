@@ -13,9 +13,18 @@ var commentSchema = mongoose.Schema(
 		hot_topic: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'HotTopic'
+		},
+		edited: {
+			type: Boolean,
+			default: false
 		}
 	},
-	{ timestamps: true }
+	{
+		timestamps: {
+			createdAt: 'created_at',
+			updatedAt: 'updated_at'
+		}
+	}
 );
 
 module.exports = mongoose.model('Comment', commentSchema);

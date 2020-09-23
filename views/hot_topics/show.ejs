@@ -9,11 +9,17 @@
                     <h4><%= hot_topic.title %></h4>
                     <p><%= hot_topic.description %></p>       
                     <p>Posted by: <a href="/user/<%= hot_topic.author.username %>"><%= hot_topic.author.username %></a></p>  
+                    <% if (hot_topic.updated_at > hot_topic.created_at) { %>
+                        <p>Edited on <%= hot_topic.updated_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.updated_at.toLocaleTimeString() %></p>
+                    <% } else { %>
+                        <p>On <%= hot_topic.created_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.created_at.toLocaleTimeString() %></p>
+                    <% } %>
 
                     <% if (currentUser && !hot_topic.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-danger" href="/hot_topics/<%= hot_topic._id %>/report">Report</a>  
                     <% } %> 
                     
+
                     <% if (currentUser && hot_topic.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/hot_topics/<%= hot_topic._id %>/edit">Edit</a>  
                         <form id="delete-form" action="/hot_topics/<%= hot_topic._id %>?_method=DELETE" method="POST">
@@ -31,7 +37,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <strong><a href="/user/<%= comment.author.username %>"><%= comment.author.username %></a></strong> 
-                            <span class="pull-right">10 days ago</span> 
+                            <span class="pull-right">
+                                <% if (comment.edited) { %>
+                                    <p>Edited on <%= comment.updated_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= comment.updated_at.toLocaleTimeString() %></p>
+                                <% } else { %>
+                                    <p>Posted on <%= comment.created_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= comment.created_at.toLocaleTimeString() %></p>
+                                <% } %>
+                            </span> 
                             <p><%= comment.text %></p>
 
                             <% if (currentUser && !comment.author.id.equals(currentUser._id)){ %>
@@ -55,7 +67,9 @@
         <div class="col-md-3">
             <p class="lead">YOUR LINKS</p>
             <div class="list-group">
-                <li class="list-group-item"><a href="/user/<%= currentUser.username %>">Profile</a></li>
+                <% if (currentUser){ %>
+                    <li class="list-group-item"><a href="/user/<%= currentUser.username %>">Profile</a></li>
+                <% } %>
                 <li class="list-group-item"><a href="#">Bookmarks</a></li>
                 <li class="list-group-item"><a href="/hot_topics">Explore</a></li>
                 <li class="list-group-item"><a href="/about">FAQ's</a></li>

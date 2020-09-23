@@ -19,7 +19,12 @@ var reportSchema = mongoose.Schema(
 			ref: 'Comment'
 		}
 	},
-	{ timestamps: true }
+	{
+		timestamps: {
+			createdAt: 'created_at',
+			updatedAt: 'updated_at'
+		}
+	}
 );
 
 module.exports = mongoose.model('Report', reportSchema);

@@ -54,7 +54,12 @@ var UserSchema = new mongoose.Schema(
 		hash: String,
 		salt: String
 	},
-	{ timestamps: true }
+	{
+		timestamps: {
+			createdAt: 'created_at',
+			updatedAt: 'updated_at'
+		}
+	}
 );
 
 UserSchema.plugin(uniqueValidator);

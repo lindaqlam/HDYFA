@@ -81,6 +81,8 @@ router.put('/:comment_id', middleware.checkCommentAuthorization, function(req, r
 			req.flash('error', 'Your comment could not be edited.');
 			res.redirect('back');
 		} else {
+			updatedComment.edited = true;
+			updatedComment.save();
 			req.flash('success', 'Successfully edited your comment!');
 			res.redirect('/hot_topics/' + req.params.id);
 		}

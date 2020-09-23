@@ -58,10 +58,6 @@ router.get('/new', middleware.isLoggedIn, function(req, res) {
 //SHOW - shows info about one hot topic
 router.get('/:id', function(req, res) {
 	HotTopic.findById(req.params.id).populate('comments').exec(function(err, foundTopic) {
-		/* 
-		find HotTopic by id then populating all the comments of that HotTopic,
-		.exec - > execute query HotTopic.findById(req.params.id).populate('comments')
-		*/
 		if (err || !foundTopic) {
 			req.flash('error', 'Hot Topic not found');
 			res.render('back');
