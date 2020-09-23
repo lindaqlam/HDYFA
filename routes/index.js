@@ -108,9 +108,6 @@ router.get('/user/edit/:username', middleware.checkAccountAuthorization, functio
 });
 
 router.put('/user/edit_profile/:username', middleware.checkAccountAuthorization, function(req, res) {
-	console.log('req.body');
-	console.log(req.body);
-
 	var updatedInfo = {
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
@@ -127,12 +124,9 @@ router.put('/user/edit_profile/:username', middleware.checkAccountAuthorization,
 
 	User.findOneAndUpdate({ username: req.params.username }, updatedInfo, options, function(err, updatedUser) {
 		if (err || !updatedUser) {
-			console.log(err);
 			req.flash('error', 'Your profile could not be edited.');
 			res.render('back');
 		} else {
-			console.log('updatedUser');
-			console.log(updatedUser);
 			req.flash('success', 'Successfully edited your profile!');
 			res.redirect('/user/' + req.params.username);
 		}
@@ -146,7 +140,8 @@ router.put('/user/edit_password/:username', middleware.checkAccountAuthorization
 	} else {
 		User.findOne({ username: req.params.username }, function(err, foundUser) {
 			if (err || !foundUser) {
-				console.log(err);
+				req.flash('error', 'An error has occured. Please try again.');
+				res.redirect('back');
 			} else {
 				foundUser.changePassword(req.body.password, req.body.new_password, function(err) {
 					if (err) {

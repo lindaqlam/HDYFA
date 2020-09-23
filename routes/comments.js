@@ -22,13 +22,11 @@ router.get('/new', middleware.isLoggedIn, function(req, res) {
 router.post('/', middleware.isLoggedIn, function(req, res) {
 	HotTopic.findById(req.params.id, function(err, hot_topic) {
 		if (err || !hot_topic) {
-			console.log(err);
 			req.flash('error', 'Your comment could not be posted.');
 			res.redirect('/hot_topics');
 		} else {
 			Comment.create(req.body.comment, function(err, comment) {
 				if (err) {
-					console.log(err);
 					req.flash('error', 'Comment could not be posted');
 					res.redirect('back');
 				} else {
@@ -129,7 +127,6 @@ router.post('/:comment_id/report', middleware.isLoggedIn, function(req, res) {
 					report.author.username = req.user.username;
 					report.comment = foundComment;
 					report.save();
-					console.log(report);
 					req.flash('success', 'This Hot Take is now under review. We will respond shortly.');
 					res.redirect('/hot_topics/' + foundComment.hot_topic._id);
 				}
