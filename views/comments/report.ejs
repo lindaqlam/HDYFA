@@ -4,9 +4,17 @@
     <div class="user-form">
         <h1 style="text-align:center;">Report Hot Take</h1>
         <div style="width:30%; margin: 25px auto;">
-            <form class="user-form" action="/hot_topics/<%= comment.hot_topic._id %>/comments/<%= comment._id %>/report" method="post">
-                <label for="report_reason">Reason for reporting: </label><textarea class="textbox" rows="10" cols="50" type="report_reason" name="report_reason" required></textarea>
-                <input type="submit" value="Submit">
+            <form action="/hot_topics/<%= comment.hot_topic._id %>/comments/<%= comment._id %>/report" method="POST">
+                <div class="form-group">
+                    <p><%= comment.text %></p>
+                </div>
+                <div class="form-group">
+                    <label for="report_reason">Reason for reporting: </label>
+                    <textarea class="form-control" rows="10" name="report_reason" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="submit" value="Submit">
+                </div>
             </form> 
             <a href="/hot_topics/<%= comment.hot_topic._id %>">Go back</a>           
             
