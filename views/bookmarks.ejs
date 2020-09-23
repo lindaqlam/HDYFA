@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1 id="page-heading"><strong>Your Bookmarks</strong></h1>
+        </div>
+    </header>
+    
+    <div class="row text-center" style="display:flex; flex-wrap:wrap">
+        <% user.bookmarks.forEach(function(hot_topic){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                    <a href="/hot_topics/<%= hot_topic._id %>"><img src="<%= hot_topic.image %>"></a>
+                    <div class="caption">
+                        <h4><a href="/hot_topics/<%= hot_topic._id %>"><%= hot_topic.title %></a></h4>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+
+
+<%- include('partials/footer') %>

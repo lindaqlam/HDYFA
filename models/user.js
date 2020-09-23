@@ -45,6 +45,12 @@ var UserSchema = new mongoose.Schema(
 				ref: 'HotTopic'
 			}
 		],
+		bookmarks: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'HotTopic'
+			}
+		],
 		comments: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

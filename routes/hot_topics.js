@@ -108,6 +108,7 @@ router.delete('/:id', middleware.checkTopicAuthorization, function(req, res) {
 	});
 });
 
+// REPORT HOT TOPIC ROUTES
 router.get('/:id/report', function(req, res) {
 	HotTopic.findById(req.params.id, function(err, foundTopic) {
 		if (err || !foundTopic) {
@@ -137,6 +138,30 @@ router.post('/:id/report', middleware.isLoggedIn, function(req, res) {
 
 					req.flash('success', 'This Hot Topic is now under review. We will respond shortly.');
 					res.redirect('/hot_topics/' + foundTopic._id);
+				}
+			});
+		}
+	});
+});
+
+// BOOK MARK HOT TOPIC ROUTES
+
+//add to bookmarks
+router.put('/:id/bookmark', middleware.isLoggedIn, function(req, res) {
+	User.findById(req.user._id, function(err, foundUser) {
+		if (err || !foundUser) {
+			req.flash('error', 'An error has occured. Please try again.');
+			res.redirect('back');
+		} else {
+			HotTopic.findById(req.params.id, function(err, foundTopic) {
+				if (err || !foundTopic) {
+					console.log(err);
+					res.redirect('back');
+				} else {
+					foundUser.bookmarks.push(foundTopic);
+					foundUser.save();
+					req.flash('success', 'This Hot Topic has been added to your bookmarks.');
+					res.redirect('back');
 				}
 			});
 		}

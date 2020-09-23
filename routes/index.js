@@ -99,7 +99,7 @@ router.get('/user/:username', function(req, res) {
 		.exec(function(err, foundUser) {
 			if (err || !foundUser) {
 				req.flash('error', 'User not found');
-				res.redirect('/user/' + req.params.username);
+				res.redirect('/hot_topics');
 			} else {
 				res.render('../views/profile', { user: foundUser });
 			}
@@ -173,6 +173,16 @@ router.get('/reset_password', function(req, res) {
 
 router.get('/about', function(req, res) {
 	res.render('about');
+});
+
+router.get('/bookmarks', middleware.isLoggedIn, function(req, res) {
+	User.findById(req.user._id).populate('bookmarks').exec(function(err, foundUser) {
+		if (err || !foundUser) {
+			console.log(err);
+		} else {
+			res.render('bookmarks', { user: foundUser });
+		}
+	});
 });
 
 module.exports = router;

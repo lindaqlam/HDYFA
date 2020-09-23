@@ -38,6 +38,10 @@ body {
 	color: #065c6f;
 }
 
+a {
+	color: #00334e;
+}
+
 .landing-page {
 	background-color: #64958f;
 }
@@ -189,7 +193,7 @@ footer a {
 	color: black;
 }
 
-.profile-hottopics {
+<<<<<<< Updated upstream .profile-hottopics {
 	margin-bottom: 50px;
 }
 

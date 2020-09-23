@@ -14,6 +14,10 @@
                     <% } else { %>
                         <p>On <%= hot_topic.created_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.created_at.toLocaleTimeString() %></p>
                     <% } %>
+                    
+                    <form id="bookmark-form" action="/hot_topics/<%= hot_topic._id %>/bookmark?_method=PUT" method="POST">
+                        <button class="btn btn-xs btn-success">Bookmark Hot Topic</button>
+                    </form>
 
                     <% if (currentUser && !hot_topic.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-danger" href="/hot_topics/<%= hot_topic._id %>/report">Report</a>  
@@ -63,14 +67,14 @@
 
             </div>
         </div>
-
+  
         <div class="col-md-3">
-            <p class="lead">YOUR LINKS</p>
+            <p class="lead">NAVIGATION</p>
             <div class="list-group">
                 <% if (currentUser){ %>
-                    <li class="list-group-item"><a href="/user/<%= currentUser.username %>">Profile</a></li>
-                <% } %>
-                <li class="list-group-item"><a href="#">Bookmarks</a></li>
+                    <li class="list-group-item"><a href="/user/<%= currentUser.username %>">Your Profile</a></li>
+                    <li class="list-group-item"><a href="/bookmarks">Bookmarks</a></li>         
+                <% } %> 
                 <li class="list-group-item"><a href="/hot_topics">Explore</a></li>
                 <li class="list-group-item"><a href="/about">FAQ's</a></li>
             </div>
