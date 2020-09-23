@@ -3,6 +3,7 @@ var router = express.Router();
 var HotTopic = require('../models/hot_topic');
 var User = require('../models/user');
 var Report = require('../models/report');
+var Comment = require('../models/comment');
 var middleware = require('../middleware');
 
 //INDEX - show all hot topics
@@ -81,6 +82,7 @@ router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 			req.flash('error', 'Your hot topic could not be edited.');
 			res.redirect('/hot_topics');
 		} else {
+			updatedHotTopic.edited = true;
 			req.flash('success', 'Successfully updated your hot topic!');
 			res.redirect('/hot_topics/' + req.params.id);
 		}
@@ -89,13 +91,19 @@ router.put('/:id', middleware.checkTopicAuthorization, function(req, res) {
 
 // DESTROY HOT TOPIC ROUTE
 router.delete('/:id', middleware.checkTopicAuthorization, function(req, res) {
-	HotTopic.findByIdAndRemove(req.params.id, function(err) {
+	HotTopic.findByIdAndRemove(req.params.id, function(err, foundTopic) {
 		if (err) {
 			req.flash('error', 'Your hot topic could not be deleted.');
 			res.redirect('/hot_topics');
 		} else {
-			req.flash('success', 'Successfully deleted your hot topic!');
-			res.redirect('/hot_topics');
+			Comment.deleteMany({ hot_topic: foundTopic }, function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					req.flash('success', 'Successfully deleted your hot topic!');
+					res.redirect('/hot_topics');
+				}
+			});
 		}
 	});
 });

@@ -9,7 +9,7 @@
                     <h4><%= hot_topic.title %></h4>
                     <p><%= hot_topic.description %></p>       
                     <p>Posted by: <a href="/user/<%= hot_topic.author.username %>"><%= hot_topic.author.username %></a></p>  
-                    <% if (hot_topic.updated_at > hot_topic.created_at) { %>
+                    <% if (hot_topic.edited) { %>
                         <p>Edited on <%= hot_topic.updated_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.updated_at.toLocaleTimeString() %></p>
                     <% } else { %>
                         <p>On <%= hot_topic.created_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.created_at.toLocaleTimeString() %></p>

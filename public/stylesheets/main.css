@@ -130,6 +130,10 @@ li input {
 	width: 300px;
 }
 
+.profile-pic-div {
+	margin-bottom: 30px;
+}
+
 .username-bg {
 	color: white;
 	background-color: #ee6f57;
@@ -182,4 +186,8 @@ footer a {
 
 .caption a {
 	color: black;
+}
+
+.profile-hottopics {
+	margin-bottom: 50px;
 }

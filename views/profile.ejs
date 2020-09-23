@@ -3,15 +3,15 @@
 <div class="container">
     <div class="row">
         <div class="column user-info">
-            <div>
+            <div class="profile-pic-div">
                 <img class="profile-pic" src="https://www.zooniverse.org/assets/simple-avatar.png">
-                <br>
-                <br>
+            </div>
+            <div>
                 <h3 class="username-bg">@<%= user.username %></h3> <h3 id="profile-name">- <%= user.first_name %> <%= user.last_name %></h3>
                 <p id="user-bio"><%= user.bio %></p>
 
                 <% if (currentUser && user._id.equals(currentUser._id)){ %>
-                    <a class="btn btn-xs btn-warning" href="/user/edit/<%= user.username %>">Edit Profile</a>
+                    <a class="btn btn-xs btn-warning" href="/user/edit/<%= user.username %>">Edit Account Info</a>
                 <% } %>     
                 
             </div>
@@ -19,18 +19,20 @@
     
         
         <div class="column opinions-column">
-            <h1 class="heading-bg">HOT TOPICS</h1>
+            <div class="profile-hottopics">
+                <h1 class="heading-bg">HOT TOPICS</h1>
             
-            <% user.hot_topics.forEach(function(hot_topic){ %>
-                <div class="row">
-                    <div class="col-md-12 profile-topics">
-                        <a href="/hot_topics/<%= hot_topic._id %>"><%= hot_topic.title %></a>
+                <% user.hot_topics.forEach(function(hot_topic){ %>
+                    <div class="row">
+                        <div class="col-md-12 profile-topics">
+                            <a href="/hot_topics/<%= hot_topic._id %>"><%= hot_topic.title %></a>
+                        </div>
                     </div>
-                </div>
-            <% }) %>
-            <hr>
-            
-            <h1 class="heading-bg">HOT TAKES</h1>
+                <% }) %>
+            </div>
+
+            <div class="profile-hottakes">
+                <h1 class="heading-bg">HOT TAKES</h1>
                 <% user.comments.forEach(function(comment){ %>
                     <div class="row">
                         <div class="col-md-12 profile-topics hot-takes">
@@ -41,9 +43,11 @@
                                 <p><%= comment.text.substring(0, 270) %> ... </p>
                                 <a class="btn btn-xs btn-outline-dark pull-right" href="/hot_topics/<%= comment.hot_topic._id %>">Read More</a>
                             <% } %>
+                            <hr>
                         </div>
                     </div>
                 <% }) %>
+            </div>
         </div>
     </div>
 </div>
