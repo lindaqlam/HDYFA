@@ -11,7 +11,12 @@ router.get('/', function(req, res) {
 
 // REGISTER FORM
 router.get('/register', function(req, res) {
-	res.render('register');
+	if (req.isAuthenticated()) {
+		req.flash('error', "You're already logged in.");
+		res.redirect('/hot_topics');
+	} else {
+		res.render('register');
+	}
 });
 
 // REGISTER POST
@@ -56,7 +61,12 @@ router.post('/register', function(req, res) {
 
 // LOGIN FORM
 router.get('/login', function(req, res) {
-	res.render('login');
+	if (req.isAuthenticated()) {
+		req.flash('error', "You're already logged in.");
+		res.redirect('/hot_topics');
+	} else {
+		res.render('login');
+	}
 });
 
 // LOGIN LOGIC
