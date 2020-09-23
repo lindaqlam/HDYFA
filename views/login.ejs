@@ -2,26 +2,24 @@
 
 <div class="container">
     <div class="user-form">
-        <div>
-            <h1>Sign In</h1>
-        </div>
-        
-        <div>
+        <h1 style="text-align:center;">Sign In</h1>
+        <div style="width:30%; margin: 25px auto;">
             <form action="/login" method="POST">
-                <input type="text" name="username" placeholder="username">
-                <input type="password" name="password" placeholder="password">
-                <input type="submit" value="Login">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="password">    
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="submit" value="Login">
+                </div>                
+                <div class="user-form">
+                    <a href="/reset_password">Forgot Password</a> 
+                </div> 
             </form>
         </div>
-
-        <div id="forgot-pw">
-            <a href="/reset_password">Forgot Password</a> 
-        </div>   
-
     </div>
 </div>
-
-
-
 
 <%- include('partials/footer') %>

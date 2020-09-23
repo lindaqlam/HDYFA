@@ -23,6 +23,7 @@ router.post('/register', function(req, res) {
 	var email = req.body.email;
 	var username = req.body.username;
 	var bio = req.body.bio;
+	var photo = req.body.photo;
 
 	var newUser = new User({
 		first_name: first_name,
@@ -31,7 +32,8 @@ router.post('/register', function(req, res) {
 		gender: gender,
 		email: email,
 		username: username,
-		bio: bio
+		bio: bio,
+		photo: photo
 	});
 
 	User.register(newUser, req.body.password, function(err, user) {
@@ -112,7 +114,8 @@ router.put('/user/edit_profile/:username', middleware.checkAccountAuthorization,
 	var updatedInfo = {
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
-		// username: req.body.username,
+		birthday: req.body.birthday,
+		gender: req.body.gender,
 		email: req.body.email,
 		bio: req.body.bio,
 		photo: req.body.photo

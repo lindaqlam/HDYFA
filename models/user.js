@@ -9,7 +9,10 @@ var UserSchema = new mongoose.Schema(
 			required: true
 		},
 		last_name: String,
-		birthday: Date,
+		birthday: {
+			type: String,
+			required: true
+		},
 		email: {
 			type: String,
 			lowercase: true,
