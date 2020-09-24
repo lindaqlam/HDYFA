@@ -6,30 +6,44 @@
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= hot_topic.image %>">
                 <div class="caption-full">
-                    <h4><%= hot_topic.title %></h4>
+
+                    <div class="pull-right">
+                        <% const exists = (topic) => String(topic._id) === String(hot_topic._id);
+                        if (currentUser) {
+                            if (currentUser.bookmarks.some(exists)) { %>
+                                <form id="remove-bookmark-form" action="/hot_topics/<%= hot_topic._id %>/bookmark/remove?_method=PUT" method="POST">
+                                    <button class="btn btn-success">UnBookmark</button>
+                                </form>
+                            <% } else { %>
+                                <form id="bookmark-form" action="/hot_topics/<%= hot_topic._id %>/bookmark?_method=PUT" method="POST">
+                                    <button class="btn btn-success">Bookmark</button>
+                                </form>
+                            <% } %>
+                        <% } %>
+                    </div>
+
+                    <h1><%= hot_topic.title %></h1>
                     <p><%= hot_topic.description %></p>       
                     <p>Posted by: <a href="/user/<%= hot_topic.author.username %>"><%= hot_topic.author.username %></a></p>  
+
                     <% if (hot_topic.edited) { %>
                         <p>Edited on <%= hot_topic.updated_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.updated_at.toLocaleTimeString() %></p>
                     <% } else { %>
                         <p>On <%= hot_topic.created_at.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %> at <%= hot_topic.created_at.toLocaleTimeString() %></p>
                     <% } %>
                     
-                    <form id="bookmark-form" action="/hot_topics/<%= hot_topic._id %>/bookmark?_method=PUT" method="POST">
-                        <button class="btn btn-xs btn-success">Bookmark Hot Topic</button>
-                    </form>
 
-                    <% if (currentUser && !hot_topic.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-xs btn-danger" href="/hot_topics/<%= hot_topic._id %>/report">Report</a>  
-                    <% } %> 
-                    
-
-                    <% if (currentUser && hot_topic.author.id.equals(currentUser._id)){ %>
-                        <a class="btn btn-xs btn-warning" href="/hot_topics/<%= hot_topic._id %>/edit">Edit</a>  
-                        <form id="delete-form" action="/hot_topics/<%= hot_topic._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-xs btn-danger">Delete</button>
-                        </form>
-                    <% } %>                    
+                    <% if (currentUser) {
+                        if (!hot_topic.author.id.equals(currentUser._id)){ %>
+                            <a class="btn btn-xs btn-danger" href="/hot_topics/<%= hot_topic._id %>/report">Report</a>  
+                        <% } else { %>
+                            <a class="btn btn-xs btn-warning" href="/hot_topics/<%= hot_topic._id %>/edit">Edit</a>  
+                            <form id="delete-form" action="/hot_topics/<%= hot_topic._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-xs btn-danger">Delete</button>
+                            </form>
+                        <% } 
+                    } %>
+                        
                 </div>
             </div>
             <div class="well">

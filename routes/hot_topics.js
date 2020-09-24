@@ -158,9 +158,45 @@ router.put('/:id/bookmark', middleware.isLoggedIn, function(req, res) {
 					req.flash('error', 'An error has occured. Please try again.');
 					res.redirect('back');
 				} else {
+					const exists = (topic) => String(topic._id) === String(foundTopic._id);
+					if (foundUser.bookmarks.some(exists)) {
+						req.flash('error', 'This Hot Topic already exists in your bookmarks');
+						return res.redirect('back');
+					}
+
 					foundUser.bookmarks.push(foundTopic);
 					foundUser.save();
 					req.flash('success', 'This Hot Topic has been added to your bookmarks.');
+					res.redirect('back');
+				}
+			});
+		}
+	});
+});
+
+//remove from bookmarks
+router.put('/:id/bookmark/remove', middleware.isLoggedIn, function(req, res) {
+	HotTopic.findById(req.params.id, function(err, foundTopic) {
+		if (err || !foundTopic) {
+			req.flash('error', 'An error has occured. Please try again.');
+			res.redirect('back');
+		} else {
+			User.findById(req.user._id, function(err, foundUser) {
+				if (err || !foundUser) {
+					req.flash('error', 'An error has occured. Please try again.');
+					res.redirect('back');
+				} else {
+					for (i = 0; i < foundUser.bookmarks.length; i++) {
+						if (String(foundUser.bookmarks[i]._id) === String(foundTopic._id)) {
+							var newBookmarks = foundUser.bookmarks.splice(i, 1);
+							foundUser.save();
+
+							req.flash('success', 'This Hot Topic has been removed from your bookmarks.');
+							return res.redirect('back');
+						}
+					}
+
+					req.flash('error', 'An error has occured. Please try again.');
 					res.redirect('back');
 				}
 			});
