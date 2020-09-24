@@ -155,7 +155,7 @@ router.put('/:id/bookmark', middleware.isLoggedIn, function(req, res) {
 		} else {
 			HotTopic.findById(req.params.id, function(err, foundTopic) {
 				if (err || !foundTopic) {
-					console.log(err);
+					req.flash('error', 'An error has occured. Please try again.');
 					res.redirect('back');
 				} else {
 					foundUser.bookmarks.push(foundTopic);
