@@ -10,6 +10,19 @@
         </div>
     </header>
     
+    <div class="container">
+        <div class="row">
+            <form action="/search" method="GET">
+                <input id="search-bar" type="text" name="search_text" placeholder="Search">
+                <button><i class="fas fa-search"></i></button>
+                <button>Show All Hot Topics</button>
+            </form>            
+            
+        </div>
+        
+
+    </div>
+
     <div class="row text-center" style="display:flex; flex-wrap:wrap">
         <% hot_topics.forEach(function(hot_topic){ %>
             <div class="col-md-3 col-sm-6">

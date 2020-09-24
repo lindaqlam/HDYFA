@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
+var HotTopic = require('../models/hot_topic');
 var middleware = require('../middleware');
+var mongoose = require('mongoose');
 
 // ROOT ROUTE
 router.get('/', function(req, res) {
@@ -181,6 +183,18 @@ router.get('/bookmarks', middleware.isLoggedIn, function(req, res) {
 			console.log(err);
 		} else {
 			res.render('bookmarks', { user: foundUser });
+		}
+	});
+});
+
+router.get('/search', function(req, res) {
+	var ht = mongoose.model('HotTopic', HotTopic.schema);
+	ht.find({ title: { $regex: req.query.search_text, $options: 'i' } }, function(err, docs) {
+		if (err) {
+			req.flash('error', 'An error has occured. Please try again.');
+			res.redirect('back');
+		} else {
+			res.render('hot_topics/index', { hot_topics: docs });
 		}
 	});
 });

@@ -61,7 +61,7 @@ router.get('/:id', function(req, res) {
 	HotTopic.findById(req.params.id).populate('comments').exec(function(err, foundTopic) {
 		if (err || !foundTopic) {
 			req.flash('error', 'Hot Topic not found');
-			res.render('back');
+			res.redirect('back');
 		} else {
 			res.render('hot_topics/show', { hot_topic: foundTopic });
 		}

@@ -193,7 +193,7 @@ footer a {
 	color: black;
 }
 
-<<<<<<< Updated upstream .profile-hottopics {
+.profile-hottopics {
 	margin-bottom: 50px;
 }
 
@@ -355,4 +355,9 @@ fieldset[disabled] .btn-info.focus {
 	font-weight: 400;
 	color: #57817c;
 	border-radius: 0;
+}
+
+#search-bar {
+	width: 400px;
+	margin-bottom: 20px;
 }
