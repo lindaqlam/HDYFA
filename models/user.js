@@ -35,10 +35,7 @@ var UserSchema = new mongoose.Schema(
 		},
 		password: String,
 		bio: String,
-		photo: {
-			type: String,
-			default: ''
-		},
+		photo: String,
 		hot_topics: [
 			{
 				type: mongoose.Schema.Types.ObjectId,

@@ -4,7 +4,11 @@
     <div class="row">
         <div class="column user-info">
             <div class="profile-pic-div">
-                <img class="profile-pic" alt="profile photo" src="<%= user.photo %>">
+                <% if (user.photo === '') { %>
+                    <img class="profile-pic" alt="profile photo" src="https://raw.githubusercontent.com/lindaqlam/HDYFA/master/public/images/default_avatar.png">
+                <% } else { %>
+                    <img class="profile-pic" alt="profile photo" src="<%= user.photo %>">
+                <% } %>
             </div>
             <div>
                 <h3 class="username-bg">@<%= user.username %></h3> <h3 id="profile-name">- <%= user.first_name %> <%= user.last_name %></h3>
