@@ -6,6 +6,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var methodOverride = require('method-override');
 var flash = require('connect-flash');
+var path = require('path');
 
 var HotTopic = require('./models/hot_topic');
 var Comment = require('./models/comment');
@@ -54,6 +55,8 @@ app.use(function(req, res, next) {
 app.use(indexRoutes);
 app.use('/hot_topics/:id/comments', commentRoutes);
 app.use('/hot_topics', topicRoutes);
+
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
 	console.log('HDYFA server has started!');

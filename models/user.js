@@ -37,7 +37,7 @@ var UserSchema = new mongoose.Schema(
 		bio: String,
 		photo: {
 			type: String,
-			default: 'https://www.zooniverse.org/assets/simple-avatar.png'
+			default: ''
 		},
 		hot_topics: [
 			{
